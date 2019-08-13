@@ -1,0 +1,59 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<div class="row divider red">
+	<div class="col-md-12"></div>
+</div>
+
+<div class="row banner login">
+  <div class="col-md-1"></div>
+  <div class="col-md-11 padding-none">
+    <h1>Login with OAuth2.0</h1>
+  </div>
+</div>
+
+<div class="row padding-top padding-bottom">
+  <div class="col-md-1"></div>
+  <div class="col-md-10 padding-none">
+    <button class="btn btn-default" id="signinButton">
+      <span class="glyphicon glyphicon-user" aria-hidden="true"></span>Log in with Google
+    </button>
+  </div>
+</div>
+<div id="result"></div>
+          
+<script>
+      $('#signinButton').click(function () {
+        function signInCallback(authResult) {
+          if (authResult['code']) {
+            // Hide the sign-in button now that the user is authorized
+            $('#signinButton').attr('style', 'display:none');
+            // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+            $.ajax({
+              type: 'POST',
+              url: '/gconnect?state={{STATE}}',
+              processData: false,
+              data: authResult['code'],
+              contentType: 'application/octet-stream; charset=utf-8',
+              success: function (result) {
+                // Handle or verify the server response if necessary.
+                if (result) {
+                  $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...');
+                  setTimeout(function () {
+                    window.location.href = "/";
+                  }, 4000);
+                } else if (authResult['error']) {
+                  console.log('There was an error: ' + authResult['error']);
+                } else {
+                  $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                }
+              }
+            });
+          }
+        }
+        auth2.grantOfflineAccess().then(signInCallback);
+      })
+</script>
+<!--END GOOGLE PLUS SIGN IN -->
+{% endblock %}

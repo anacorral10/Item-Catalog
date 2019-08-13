@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+		
+		<!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+		<script>
+		function start() {
+			gapi.load('auth2', function() {
+				auth2 = gapi.auth2.init({
+					client_id: '808666525313-e2iibpk62qc2j7ulapfpqt0jmkeid47k.apps.googleusercontent.com'
+				});
+			});
+		}
+		</script>
+<!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+
+	<title>Restaurant Catalog</title>
+</head>
+	<body>
+		<div class="container">
+			{% block content %}
+			{% endblock %}
+		</div>
+	</body>
+</html>
